@@ -226,10 +226,9 @@
         <select name="Category" id="Category">
           <option value="">Select Category</option>
           <option value="Cake">Cake</option>
-          <option value="Pizza">Pizza</option>
-          <option value="Ice-cream">Ice-cream</option>
-          <option value="Ice-cubes">Ice-cubes</option>
-          <option value="Birthday-Accessories">Birthday Accessories</option>
+          <option value="Kurti">Kurti</option>
+          <option value="Lower">Lower</option>
+
         </select>
         <select name="subCategory" id="subCategory">
           <option value="">Select Subcategory</option>
@@ -239,32 +238,65 @@
     </div>
   </div>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const categorySubcategories = {
+        "Cake": [
+          "Cake 1 Pound",
+          "Cake 2 Pound",
+          "Layer Cake",
+          "Kids Cake",
+          "Photo Cake",
+          "Designer Cake"
+        ],
+        "Pizza": [
+          "OTC Pizza",
+          "SweetCorn Pizza"
+        ],
+        "Ice-cream": [
+          "Ice-cream Cup",
+          "Ice-cream Pack",
+          "Ice-cream Brick"
+        ],
+        "Ice-cubes": [
+          "Ice-cubes"
+        ],
+        "Birthday-Accessories": [
+          "Birthday-Accessories"
+        ]
+      };
+
+      const categorySelect = document.getElementById('Category');
+      const subCategorySelect = document.getElementById('subCategory');
+
+      categorySelect.addEventListener('change', function () {
+        const selectedCategory = this.value;
+        updateSubCategoryOptions(selectedCategory);
+      });
+
+      function updateSubCategoryOptions(category) {
+        // Clear existing options
+        subCategorySelect.innerHTML = '<option value="">Select Subcategory</option>';
+
+        // Populate new options based on selected category
+        if (category && categorySubcategories[category]) {
+          categorySubcategories[category].forEach(subCategory => {
+            const option = document.createElement('option');
+            option.value = subCategory;
+            option.textContent = subCategory;
+            subCategorySelect.appendChild(option);
+          });
+        }
+      }
+    });
+  </script>
+
+
   <div class="menu-container" id="menuContainer">
     <!-- Categories will be dynamically inserted here -->
   </div>
 
-  <!-- <div id="categoryModal" class="modal">
-    <div class="modal-content">
-      <span class="close" id="closeModal">&times;</span>
-      <h2>Select Category and Subcategory</h2>
-      <label for="Category">Category:</label>
-      <select id="Category">
-        <option value="">Select Category</option>
-        <option value="Cake">Cake</option>
-        <option value="Pizza">Pizza</option>
-        <option value="Ice-cream">Ice-cream</option>
-        <option value="Ice-cubes">Ice-cubes</option>
-        <option value="Birthday-Accessories">Birthday Accessories</option>
-      </select>
 
-      <label for="subCategory">Subcategory:</label>
-      <select id="subCategory">
-        <option value="">Select Subcategory</option>
-      </select>
-
-      <button id="submitCategory">Submit</button>
-    </div>
-  </div> -->
 
 
   <script type="module">
@@ -282,14 +314,13 @@
 
     // Firebase configuration
     const firebaseConfig = {
-      apiKey: "AIzaSyDjpg5dNL6R44dPpoDQabNaT8tLVmVWTQQ",
-      authDomain: "eekh-website.firebaseapp.com",
-      databaseURL: "https://eekh-website-default-rtdb.firebaseio.com",
-      projectId: "eekh-website",
-      storageBucket: "eekh-website.appspot.com",
-      messagingSenderId: "276234231567",
-      appId: "1:276234231567:web:1509267f60d97a83cea87a",
-      measurementId: "G-QX5HCKXMDK",
+      apiKey: "AIzaSyA7BcuGuI-wLeAjKaHTqsmxphcwJkEo60U",
+      authDomain: "bagdabazaar-d9eef.firebaseapp.com",
+      projectId: "bagdabazaar-d9eef",
+      storageBucket: "bagdabazaar-d9eef.appspot.com",
+      messagingSenderId: "465947430539",
+      appId: "1:465947430539:web:af63ffdbe349508a1e0e8e",
+      measurementId: "G-4KXL6PCKRF"
     };
 
     // Initialize Firebase
@@ -387,8 +418,8 @@
       const name = document.getElementById("newItemName").value;
       const price = document.getElementById("newItemPrice").value;
       const image = document.getElementById("dummyImage").src;
-      // const category = document.getElementById("Category").value;
-      // const subCategory = document.getElementById("subCategory").value;
+      const category = document.getElementById("Category").value;
+      const subCategory = document.getElementById("subCategory").value;
 
       if (name && price) {
         try {
@@ -396,6 +427,8 @@
             name: name,
             price: price,
             image: image,
+            category: category,
+            subCategory: subCategory,
           });
 
           alert("Item added successfully!");
@@ -423,8 +456,6 @@
       const newName = prompt("Enter new name:", currentName);
       const newPrice = prompt("Enter new price:", currentPrice);
 
-      // Show the modal to select category and subcategory
-      // const { newCategory, newSubCategory } = await showCategoryPrompt();
 
       // Ensure all fields are filled before updating the item
       if (newName !== null && newPrice !== null) {
@@ -445,136 +476,11 @@
       }
     }
 
-    // function showCategoryPrompt() {
-    //   return new Promise((resolve) => {
-    //     const modal = document.getElementById('categoryModal');
-    //     const categorySelect = document.getElementById('categorySelect');
-    //     const subcategorySelect = document.getElementById('subcategorySelect');
-
-    //     // Clear subcategories initially
-    //     subcategorySelect.innerHTML = '<option value="">Select Subcategory</option>';
-
-    //     // Show the modal
-    //     modal.style.display = 'block';
-
-    //     // Update subcategory options based on the selected category
-    //     categorySelect.addEventListener('change', updateSubCategoryOptions);
-
-    // const submitButton = document.getElementById('submitCategory');
-    //     submitButton.onclick = () => {
-    //       const newCategory = categorySelect.value;
-    //       const newSubCategory = subcategorySelect.value;
-
-    //       if (newCategory && newSubCategory) {
-    //         modal.style.display = 'none';
-    //         resolve({ newCategory, newSubCategory });
-    //       } else {
-    //         alert("Please select both category and subcategory.");
-    //       }
-    //     };
-    //   });
-    // }
-
-    // function updateSubCategoryOptions() {
-    //   const category = document.getElementById('categorySelect').value;
-    //   const subcategorySelect = document.getElementById('subcategorySelect');
-
-    //   // Clear existing subcategory options
-    //   subcategorySelect.innerHTML = '<option value="">Select Subcategory</option>';
-
-    //   // Define subcategories based on the selected category
-    //   const subcategories = {
-    //     Cake: ["Cake 1 Pound", "Cake 2 Pound", "Layer Cake", "Kids Cake", "Photo Cake", "Designer Cake"],
-    //     Pizza: ["OTC Pizza", "SweetCorn Pizza"],
-    //     "Ice-creams": ["Ice-cream Cup", "Ice-cream Pack", "Ice-cream Brick"],
-    //     "Ice-cubes": ["Ice-Cubes"],
-    //     "Birthday Accessories": ["Birthday-Accessories"]
-    //   };
-
-    //   if (subcategories[category]) {
-    //     subcategories[category].forEach(subcat => {
-    //       const option = document.createElement('option');
-    //       option.value = subcat;
-    //       option.textContent = subcat;
-    //       subcategorySelect.appendChild(option);
-    //     });
-    //   }
-    // }
-
-
-    // Example usage:
-    // editExistingItem(itemId, currentName, currentPrice, currentCategory, currentSubCategory);
-
-
-    // Populate subcategory options based on selected category
-    // document.getElementById("Category").addEventListener("change", (event) => {
-    //   const category = event.target.value;
-    //   const subCategorySelect = document.getElementById("subCategory");
-    //   subCategorySelect.innerHTML = "<option value=''>Select Subcategory</option>";
-
-    //   // Define subcategories for each category
-    //   const subcategories = {
-
-
-    //     Cake: ["Cake 1 Pound", "Cake 2 Pound", "Layer Cake", "Kids Cake", "Photo Cake", "Designer Cake"],
-
-    //     Pizza: ["OTC Pizza", "SweetCorn Pizza"],
-
-    //     "Ice-cream": ["Ice-cream Cup", "Ice-cream Pack", "Ice-cream Brick"],
-
-    //     "Ice-cubes": ["Ice-Cubes"],
-
-    //     "Birthday-Accessories": ["Birthday-Accessories"]
-    //   };
-
-    //   if (subcategories[category]) {
-    //     subcategories[category].forEach(subcat => {
-    //       const option = document.createElement("option");
-    //       option.value = subcat;
-    //       option.textContent = subcat;
-    //       subCategorySelect.appendChild(option);
-    //     });
-    //   }
-    // });
-
-    // document.getElementById("Category").addEventListener("change", (event) => {
-    //   const category = event.target.value;
-    //   const subCategorySelect = document.getElementById("subCategory");
-
-    //   // Clear current subcategory options and add a default option
-    //   subCategorySelect.innerHTML = "<option value=''>Select Subcategory</option>";
-
-    //   // Define subcategories for each category
-    //   const subcategories = {
-    //     Cake: ["Cake 1 Pound", "Cake 2 Pound", "Layer Cake", "Kids Cake", "Photo Cake", "Designer Cake"],
-    //     Pizza: ["OTC Pizza", "SweetCorn Pizza"],
-    //     "Ice-cream": ["Ice-cream Cup", "Ice-cream Pack", "Ice-cream Brick"],
-    //     "Ice-cubes": ["Ice-Cubes"],
-    //     "Birthday-Accessories": ["Birthday-Accessories"]
-    //   };
-
-    //   // Populate subcategories if they exist for the selected category
-    //   if (subcategories[category]) {
-    //     subcategories[category].forEach(subcat => {
-    //       const option = document.createElement("option");
-    //       option.value = subcat;
-    //       option.textContent = subcat;
-    //       subCategorySelect.appendChild(option);
-    //     });
-    //   }
-    // });
-
-
-
-
-
     window.addItem = addItem;
     window.doneItem = doneItem;
     window.deleteExistingItem = deleteExistingItem;
     window.editExistingItem = editExistingItem;
-    // window.updateSubCategoryOptions = updateSubCategoryOptions;
-    // window.showCategoryModal = showCategoryModal;
-    // window.submitCategoryAndSubcategory = submitCategoryAndSubcategory;
+
   </script>
 </body>
 
