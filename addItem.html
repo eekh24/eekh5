@@ -417,7 +417,7 @@
     }
 
     async function doneItem() {
-      const name = document.getElementById("newItemName").value;
+      const name = document.getElementById("newItemName").value.replace(/\s+/g, '-');
       const price = document.getElementById("newItemPrice").value;
       const image = document.getElementById("dummyImage").src;
       const category = document.getElementById("Category").value;
